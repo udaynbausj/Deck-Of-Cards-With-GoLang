@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -46,16 +47,17 @@ func (d deck) saveToFile(filename string) error {
 
 func readFileFromDisc(filename string) deck {
 
-	bytes , err := ioutil.ReadFile(filename)
+	var res deck
+
+	bytes, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-	
+		fmt.Println(" Error occurred : ", err)
+		os.Exit(1)
 	}
 
-	var res deck
-	for _ , card := range ([]string(bytes)) {
-		res = append(res,card)
+	for _, card := range strings.Split(string(bytes), ",") {
+		res = append(res, card)
 	}
-
 	return res
 }
